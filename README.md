@@ -1,7 +1,6 @@
 # GDIM33 Vertical Slice
 ## Milestone 1 Devlog
 <img width="2559" height="1368" alt="image" src="https://github.com/user-attachments/assets/c2ad7fbb-f6d7-4736-803d-67a9688933b2" />
-<img width="2559" height="1368" alt="image" src="https://github.com/user-attachments/assets/27ed09af-943f-4494-9c27-e6ca1f5dcdf3" />
 
 1. I created a player movement animation visual state machine in the game as a learning and practice of the Unity Visual Scripting system. The design goal of this state machine is to automatically switch character animations based on the player's movement speed. It retrieves the linear velocity vector of the player's Rigidbody2D component every frame, then calculates the player's main movement direction through vector decomposition, and then controls the Animator component to play the corresponding animation. Although I finally chose the key input-based Animator state machine to implement the actual animation control, this visual script graph helped me understand the basic working principle of state machines.
 
@@ -60,8 +59,9 @@ However, I still encountered an unexpected issue that was not covered in the tas
 If I were to do the task breakdown again, I would add a dedicated "prefab compatibility testing" step. I would immediately test turning each feature into a prefab and duplicating multiple instances right after its development is completed, to catch bugs related to Unity's prefab mechanism early on.
 
 Q3. I implemented a bridge between C# code and Visual Scripting state machine in the game, where C# code calls the Visual Scripting graph. The involved C# script is TopDownCharacterController.cs (the player controller script). In the Update method of this script, I call the PlayerAnimationStateMachine visual state machine graph I created through the CustomEvent.Trigger API provided by Unity Visual Scripting. When the player presses or releases the WASD keys, the C# code triggers a custom event named "OnPlayerInput" and passes the current input direction and input state as parameters to the visual state machine.This bridge plays a key role in separating input from presentation in my game architecture. I use C# code to handle core game mechanics such as player input, physical movement and combat logic, which are the strengths of code; at the same time, I use visual state machines to handle player animation state transitions, which are the strengths of visual scripting. This combination makes my code clearer and easier to maintain, and also makes the adjustment of animation logic more intuitive.
+<img width="2559" height="1368" alt="image" src="https://github.com/user-attachments/assets/27ed09af-943f-4494-9c27-e6ca1f5dcdf3" />
 
-
+Q4. The Unity system I want you to grade is the Prefab system. I used the Prefab system to create a reusable melee enemy template that includes complete enemy AI logic, basic attributes, colliders, physics components and hit visual feedback. With the Prefab system, I can quickly place multiple enemies with the same behavior and attributes in the scene, greatly improving the efficiency of level design. You can find the blue prefab file named MeleeEnemy under the Assets folder in the Project window.
 
 ## Milestone 3 Devlog
 Milestone 3 Devlog goes here.
