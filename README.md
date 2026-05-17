@@ -15,8 +15,9 @@ The player animation state machine I actually use is implemented based on Unity 
 This state machine is closely related to other systems in the game: it receives player input data from the TopDownCharacterController.cs C# script, and then controls the Animator component to play the corresponding animation based on these data, realizing the synchronization of player input, physical movement and visual performance.
 
 ## Milestone 2 Devlog
-1. The complicating gameplay feature I developed for this Milestone is the dual-weapon combat system and finite state machine-based intelligent enemy AI. This feature is newly added on the basis of MS1 and was not written in class. It provides a complete combat loop for the game: players can use two weapons, a ranged pistol and a melee knife, to interact with enemies that have independent patrol, chase, return and attack behaviors.
+Q1. The complicating gameplay feature I developed for this Milestone is the dual-weapon combat system and finite state machine-based intelligent enemy AI. This feature is newly added on the basis of MS1 and was not written in class. It provides a complete combat loop for the game: players can use two weapons, a ranged pistol and a melee knife, to interact with enemies that have independent patrol, chase, return and attack behaviors.
 I split this feature into 2 major steps from the simplest to the most complex, and each major step is split into 4 testable sub-steps:
+
 Major Step 1: Dual-weapon Combat System Development
 
 1.Implement basic pistol shooting mechanism
@@ -31,6 +32,37 @@ Test method: Run the game, move the mouse, observe whether the pistol always rot
 3.Implement melee knife attack mechanism
 Sub-step: Modify the original Spell script, add OnTriggerEnter2D collision detection, and call the enemy's TakeDamage method when hitting an enemy
 Test method: Run the game, press the spacebar, observe whether the knife is displayed, and whether the enemy loses health when hit.
+
+4.Implement weapon linkage logic
+Sub-step: Add a coroutine in the player controller to automatically hide the pistol when pressing the spacebar to use the knife, hide the knife and restore the pistol display after 0.2 seconds
+Test method: Run the game, press the spacebar, observe whether the pistol automatically hides and whether it automatically shows after the knife attack ends.
+
+Major Step 2: Enemy AI State Machine Development
+
+1.Implement enemy basic attributes and hit feedback
+Sub-step: Create a MeleeEnemy script, add parameters such as health, damage, and movement speed, implement the TakeDamage method and the red flash coroutine
+Test method: Run the game, directly modify the enemy's health value in the Inspector, observe whether the enemy flashes red, and whether it is destroyed when health reaches 0.
+
+2.Implement enemy patrol state
+Sub-step: Get the enemy's spawn point in the Start method, generate a random patrol target every 2 seconds, and make the enemy move towards the target
+Test method: Run the game, observe whether the enemy moves randomly around its spawn point.
+
+3.Implement enemy chase and attack states
+Sub-step: Calculate the distance between the enemy and the player. When the distance is less than the chase radius, make the enemy move towards the player; when the distance is less than the attack range, call the player's TakeDamage method
+Test method: Run the game, approach the enemy, observe whether the enemy chases you, and whether you lose health when touched.
+
+4.Implement enemy return state
+Sub-step: When the player runs out of the enemy's chase range, make the enemy move towards its spawn point, and continue patrolling after returning to the spawn point
+Test method: Run the game, lead the enemy far away from its spawn point, then run away, observe whether the enemy walks back to its patrol area.
+
+Q2. The Week 5 task breakdown activity was extremely helpful for my development process. It allowed me to break down a seemingly complex feature into individual, testable small modules before I even started writing any code. This incremental development approach enabled me to test after completing each small step, avoiding the situation where I write hundreds of lines of code all at once only to end up with a bunch of hard-to-locate bugs. For example, I first tested the enemy's patrol behavior independently and only added the chase logic after confirming it worked correctly, which significantly reduced the difficulty of debugging.
+However, I still encountered an unexpected issue that was not covered in the task breakdown: when I turned the enemy into a prefab and duplicated multiple instances into the scene, all the duplicated enemies would get stuck and not move at all. I later discovered that this was because I had initialized the enemy's spawn point in the Awake method, and Unity prefabs execute the Awake method even in edit mode, causing all enemies' spawn points to be incorrectly set to (0,0,0).
+If I were to do the task breakdown again, I would add a dedicated "prefab compatibility testing" step. I would immediately test turning each feature into a prefab and duplicating multiple instances right after its development is completed, to catch bugs related to Unity's prefab mechanism early on.
+
+Q3. I implemented a bridge between C# code and Visual Scripting state machine in the game, where C# code calls the Visual Scripting graph. The involved C# script is TopDownCharacterController.cs (the player controller script). In the Update method of this script, I call the PlayerAnimationStateMachine visual state machine graph I created through the CustomEvent.Trigger API provided by Unity Visual Scripting. When the player presses or releases the WASD keys, the C# code triggers a custom event named "OnPlayerInput" and passes the current input direction and input state as parameters to the visual state machine.This bridge plays a key role in separating input from presentation in my game architecture. I use C# code to handle core game mechanics such as player input, physical movement and combat logic, which are the strengths of code; at the same time, I use visual state machines to handle player animation state transitions, which are the strengths of visual scripting. This combination makes my code clearer and easier to maintain, and also makes the adjustment of animation logic more intuitive.
+
+
+
 ## Milestone 3 Devlog
 Milestone 3 Devlog goes here.
 ## Milestone 4 Devlog
