@@ -70,4 +70,4 @@ Milestone 4 Devlog goes here.
 ## Final Devlog
 Final Devlog goes here.
 ## Open-source assets
-- Cite any external assets used here!
+[- Cite any external assets used here!](https://yqqs.huijiwiki.com/wiki/%E5%B0%8F%E6%80%AA#%E6%A3%80%E7%B4%A2)
