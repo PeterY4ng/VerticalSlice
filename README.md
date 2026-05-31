@@ -77,8 +77,30 @@ Q3. Since the last milestone submission, I have added three main contents to the
 
 ## Milestone 4 Devlog
 Milestone 4 Devlog goes here.
+
 ## Final Devlog
-Final Devlog goes here.
+Q1. This is a 2D top-down pixel shooter where the player controls an adventurer fighting through a dungeon filled with wild boar enemies. The core gameplay loop is: defeat enemies using either ranged bullets or a melee knife, collect coins dropped by defeated enemies, and survive against waves of foes.
+This vertical slice demonstrates what the full game would look like by implementing all core mechanics: player movement, two different attack types, enemy AI with pathfinding, a collectible system, and player health and death. It shows the core combat and progression loop that would be expanded in the full game, where players would explore larger dungeons, fight more varied enemies, and use collected coins to purchase upgrades.
+This implementation partially aligns with the vertical slice plan I proposed in the Week 1 brainstorm. My original inspiration came from games like Soul Knight, Dead Cells, and Neon Abyss, and I planned to create a pixel-style top-down shooter centered around a complete "combat-collect-upgrade" loop. The current vertical slice has implemented the first two core parts of this loop: players can fight using two different weapons and defeat enemies to earn coins. The system for using coins to purchase weapons and skill upgrades will be implemented in future development. This version already demonstrates the core combat experience I originally envisioned and proves the feasibility of this gameplay concept.
+
+Q2. I implemented a screen flash effect that activates when the player takes damage. This effect is triggered directly from gameplay logic in the player's TakeDamage() function. When the player is hit by an enemy, the function calls a coroutine that temporarily changes the color of a full-screen UI Image to a semi-transparent red, then fades it back to transparent over 0.15 seconds.
+
+This is a rendering effect that modifies the final output of the game to provide immediate visual feedback to the player. The effect is only active for a short duration when the specific gameplay event of taking damage occurs, and it is implemented using C# code to control the UI element's color property.
+Figure 1: Logic for triggering the rendering effect on hit event
+<img width="2559" height="1368" alt="image" src="https://github.com/user-attachments/assets/7775aa3d-a9ad-4c94-aeab-2df5672cc008" />
+
+Figure 2: Specific implementation of the red screen effect
+<img width="2559" height="1368" alt="image" src="https://github.com/user-attachments/assets/66424fce-b887-4730-ad21-acc5d6056f1e" />
+
+Additionally, I implemented a purple breathing glow effect for coins. I initially tried to implement this effect using Shader Graph, but encountered a known compilation bug in Unity 6.3 where the material would never correctly apply the effect despite correct node connections and property settings. After many failed attempts to fix it, I switched to handwritten HLSL code to implement exactly the same logic, and successfully made the coins produce a purple breathing flickering glow. This experience gave me a deeper understanding of how shaders work at a lower level.
+<img width="2559" height="1368" alt="image" src="https://github.com/user-attachments/assets/e9f1695d-7d73-4b38-a56b-b9ec49387acd" />
+
+Q3. I broke down this freshman-year project into multiple independent, manageable systems, including the player controller, enemy AI and combat system, player weapon and bullet system, collectible system, and UI feedback system. I implemented one system at a time, thoroughly testing each component before moving on to the next to ensure stable functionality.
+I plan to continue using the task step breakdown method we practiced this quarter in my future planning process. This approach has been extremely effective for me. As someone who wasn't familiar with the Unity engine at first, creating a 2D pixel shooter similar to Soul Knight seemed simple at first glance, but it was actually full of challenges. However, once I broke the entire project down into small, independent modules, the complex task became clear and manageable. It helped me track my progress more effectively, and seeing the game advance with each completed small module gave me great motivation.
+Breaking down the project into small steps also helped me truly understand its scope. Initially, I thought completing this vertical slice would be very difficult. But as I completed each small task step by step, I found myself more clearly aware of what was missing from the project and what needed to be added to make the game more complete.
+The process I described is exactly the workflow I followed when creating this vertical slice. I would first list all the small functional modules needed in the game, implement each one, test it in the game, and only start developing the next module after confirming it runs stably. This method helped me identify and fix bugs early before they became more complex, avoiding extensive rework later. In the future, I will continue to use this task-based breakdown approach, and I will also reserve more time at the end of the project for polishing details and fixing bugs to make the game experience even better.
+
+
 ## Open-source assets
 [- Cite any external assets used here!]
 (https://yqqs.huijiwiki.com/wiki/%E5%B0%8F%E6%80%AA#%E6%A3%80%E7%B4%A2)
