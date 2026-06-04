@@ -86,7 +86,7 @@ This implementation partially aligns with the vertical slice plan I proposed in 
 
 Q2. I implemented a screen flash effect that activates when the player takes damage. This effect is triggered directly from gameplay logic in the player's TakeDamage() function. When the player is hit by an enemy, the function calls a coroutine that temporarily changes the color of a full-screen UI Image to a semi-transparent red, then fades it back to transparent over 0.15 seconds.
 
-This is a rendering effect that modifies the final output of the game to provide immediate visual feedback to the player. The effect is only active for a short duration when the specific gameplay event of taking damage occurs, and it is implemented using C# code to control the UI element's color property.
+This is a rendering effect that modifies the final output of the game to provide immediate visual feedback to the player. The effect is only active for a short duration when the player experienced a certain event of taking damage, and it is implemented using C# code to control the UI element's color property.
 Figure 1: Logic for triggering the rendering effect on hit event
 <img width="2559" height="1368" alt="image" src="https://github.com/user-attachments/assets/7775aa3d-a9ad-4c94-aeab-2df5672cc008" />
 
