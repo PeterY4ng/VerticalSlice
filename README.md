@@ -65,6 +65,22 @@ Q4. The Unity system I want you to grade is the Prefab system. I used the Prefab
 
 ## Milestone 3 Devlog
 <img width="2559" height="1220" alt="d859ed3a788a72d5dfe68725e8f9b4cd" src="https://github.com/user-attachments/assets/d0c333a6-675e-438e-a361-24c6802ab53f" />
+This Shader Graph is designed to create a cyclic breathing glow effect for coins. Its logic is very clear and uses only the core nodes taught in the course:
+Overall Workflow
+
+I use the game's running time to drive a sine wave, which generates a smoothly changing value between 0 and 1. This value controls the intensity of the glow color, which is then overlaid on top of the coin's base texture to create the final flickering breathing glow effect.
+
+Explanation of Each Node
+
+Sample Texture 2D Node: Reads the base pixel texture of the coin, which is the original appearance of the coin.
+ShineColor Node: The purple glow color I set, which is the base color of the glow effect.
+Time Node: Gets the total running time of the game, which is the "power source" of the entire dynamic effect.
+Sine Node: Converts the continuous time value into a smoothly oscillating sine wave between -1 and 1.
+First Add Node: Adds 1 to the sine wave result, converting the value range from -1~1 to 0~2.
+First Multiply Node: Multiplies the 0~2 value by 0.5, finally converting it to a standard brightness value between 0 and 1.
+Second Multiply Node: Multiplies this changing brightness value by the purple glow color to get a dynamic glow color whose intensity changes over time.
+Second Add Node: Overlays the dynamic glow color on top of the coin's base texture to get the final coin image with the glow effect.
+
 Q1. I initially tried to create a breathing glow effect for coins using Shader Graph, and built the node graph according to the teaching content of Week 8 of the course. This Shader Graph mainly uses several core nodes taught in the course: the Time node to get the game running time, the Sine node to generate smooth oscillating values, the Add node to implement the glow effect of color overlay, and the Sample Texture 2D node to sample the base texture of the coin. The overall logic is to drive the sine wave through time to produce brightness changes, and then overlay the glow color on the base texture of the coin to achieve the breathing flickering effect.
 
 However, in practical application, I encountered an unsolvable material synchronization problem: although the node connections and property settings of Shader Graph were completed according to the teaching requirements, the material could never correctly apply the effect of Shader Graph, and there was no glow performance when running the game. After many failed attempts to fix it, I finally switched to handwritten HLSL code to implement exactly the same logic, and successfully made the coins generated after defeating enemies produce a purple breathing flickering glow.
